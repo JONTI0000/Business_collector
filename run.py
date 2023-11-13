@@ -36,5 +36,4 @@ collector.appending_to_csv()
 #collector.appending_to_master_csv() dont call when testing
 collector.remove_duplicates_df()
 #collector.remove_duplicates_master_csv() dont call when testing
- 
-print(os.getcwd())
+collector.document_credits_used()

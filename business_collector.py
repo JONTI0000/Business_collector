@@ -18,12 +18,24 @@ class BusinessCollector:
         self.df = None
         self.catergory = catergory
         self.path = os.getcwd()
+        self.credits_used = 0
     
     def __str__(self):
         return self.catergory
     
     def __repr__(self):
         return self.catergory 
+    
+    def calculate_credits_used(self,credits):
+        self.credits_used = self.credits_used + credits
+        return self.credits_used
+    
+    def document_credits_used(self):
+        path = os.path.join(self.path,"credits_used.csv")
+        with open(path,'a', newline='') as csv_file:
+                        csv_writer = csv.writer(csv_file)
+                        csv_writer.writerow((self.credits_used,self.keyword))
+
 
     def make_directories(self):
         """create the directory for the town center if it doesnt exsist"""
@@ -109,7 +121,10 @@ class BusinessCollector:
             res = conn.getresponse()
             self.test_connection(conn=res)
             data = res.read()
-            json_data = json.loads(data.decode("utf-8"))    
+            json_data = json.loads(data.decode("utf-8")) 
+
+            self.calculate_credits_used(5)
+
             self.pages.append(json_data)
             self.start+=20 
         print("done scraping")
