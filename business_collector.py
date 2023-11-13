@@ -7,32 +7,71 @@ from datetime import datetime
 
 
 class BusinessCollector:
-    def __init__(self,api_key,catergory,town_center:str,search_term:str,ll,count:int=3) -> None:
+    def __init__(self,api_key,catergory:str,town_center:str,search_term:str,ll,count:int=3) -> None:
         self.keyword = None
-        self.town_center = town_center
-        self.search_term = search_term
+        self.town_center = town_center.lower()
+        self.search_term = search_term.lower()
         self.start = 0
         self.count = count
         self.ll=ll
         self.pages = []
         self.api_key = api_key
         self.df = None
-        self.catergory = catergory
+        self.catergory = catergory.lower()
         self.path = os.getcwd()
         self.credits_used = 0
         self.current_date = datetime.now().date()
-    
+        self.catergories= ["retail_and_shopping",  
+            "beauty_and_spas",
+            "food_and_drink",
+            "home_improvement",
+            "health_and_fitness",
+            "travel_and_tourism",
+            "auto_and_transport",
+            "personal_services",
+            "business_services",
+            "things_to_do" ]
+        self.len_df = None
+        self.no_of_non_duplicates = None
+        self.no_of_duplicates = None
+
+
+        if self.catergory not in self.catergories:
+            raise ValueError (f"""
+enter a valid catergory out of the following
+{self.catergories}
+""")
+
+
     def __str__(self):
         return self.catergory
     
     def __repr__(self):
         return self.catergory 
     
+    def documenting_results(self):
+        path = os.path.join(self.path,"results.csv")
+        with open(path,'a', newline='') as csv_file:
+                        csv_writer = csv.writer(csv_file)
+                        csv_writer.writerow((self.town_center,self.catergory,self.keyword,self.len_df,self.no_of_non_duplicates,self.no_of_duplicates,self.current_date))
+    
     def calculate_credits_used(self,credits):
+        """calculating the credits used as a single api call cost 5 credits
+
+        Args:
+            credits (int):credits used per api call which is 5 
+
+        Returns:
+            _type_: self.credits_used
+        """
         self.credits_used = self.credits_used + credits
         return self.credits_used
     
     def document_credits_used(self):
+        """appendint the credits used when the program is run once and
+        appending the data to a csv file with the credits used ,the keyword used and the 
+        date the programme was run
+        """
         path = os.path.join(self.path,"credits_used.csv")
         with open(path,'a', newline='') as csv_file:
                         csv_writer = csv.writer(csv_file)
@@ -66,7 +105,7 @@ class BusinessCollector:
         if len(os.listdir(path))==0:
             try:
                 for catergory in catergories:
-                    csv_file_name=os.path.join(path,f"{catergory}_{self.town_center}.csv")
+                    csv_file_name=os.path.join(path,f"{catergory.lower()}_{self.town_center}.csv")
                     column_names = ("name",
                         "address",
                         "website",
@@ -182,6 +221,7 @@ class BusinessCollector:
         """creating a pandas dataframe with the data retrieved from the appending_list function"""
         self.df = pd.DataFrame(data)
         print("Total businesses collected:{}".format(len(self.df)))
+        self.len_df = len(self.df)
     
     def remove_duplicates_from_df(self):
         """removing duplicates from the dataframe just used as a precautionary way"""
@@ -212,6 +252,8 @@ No of duplicate entries:{}
         """.format(len(non_duplicates),len(duplicates)))
 
         self.df = non_duplicates
+        self.no_of_non_duplicates = len(non_duplicates)
+        self.no_of_duplicates = len(duplicates)
     
     def appending_to_csv(self):
         """appending data to the csv file"""
