@@ -3,6 +3,7 @@ import json
 import pandas as pd
 import os
 import csv
+from datetime import datetime
 
 
 class BusinessCollector:
@@ -19,6 +20,7 @@ class BusinessCollector:
         self.catergory = catergory
         self.path = os.getcwd()
         self.credits_used = 0
+        self.current_date = datetime.now().date()
     
     def __str__(self):
         return self.catergory
@@ -34,7 +36,7 @@ class BusinessCollector:
         path = os.path.join(self.path,"credits_used.csv")
         with open(path,'a', newline='') as csv_file:
                         csv_writer = csv.writer(csv_file)
-                        csv_writer.writerow((self.credits_used,self.keyword))
+                        csv_writer.writerow((self.credits_used,self.keyword,self.current_date))
 
 
     def make_directories(self):
