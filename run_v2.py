@@ -3,7 +3,11 @@ import http.client
 import json
 import pandas as pd
 import os
+"""
+This is used to collect data on an entire catergory this should be used when the no of pages in 
+each search term is uniform
 
+"""
 search = {
     "retail_and_shopping":["fashion stores","clothings shops","Jewellery shops","baby care shops","grocery shops","toy shops","arts & craft","home need shops","book stores",
                            "car dealerships","motorbike dealerships","music instruments shops","game shops","sports shops","camping equipment shops",
@@ -21,7 +25,6 @@ key = "7e7266ba-8be3-4cbf-a868-3d9a27167920"
 ll = "@51.36,-0.14670,14z"
 catergory = "home_improvement" #enter proper CATERGORY with the PROPER UNDERSCORES AND SPELLINGS
 town_center = "carshalton" #enter proper VALID TOWN CENTER
-#search_term = "photography services"
 count=3
 
 for term in search[catergory]:

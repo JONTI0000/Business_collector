@@ -3,7 +3,9 @@ import http.client
 import json
 import pandas as pd
 import os
-
+"""This way of running the script is to collect data on only one business catergory search term at a term
+this should be used when the no of pages in each catergory is varying
+"""
 search = {
     "retail_and_shopping":["fashion stores","clothings shops","Jewellery shops","baby care shops","grocery shops","toy shops","arts & craft","home need shops","book stores",
                            "car dealerships","motorbike dealerships","music instruments shops","game shops","sports shops","camping equipment shops",
@@ -21,8 +23,8 @@ key = "7e7266ba-8be3-4cbf-a868-3d9a27167920"
 ll = "@51.36,-0.14670,14z"
 catergory = "beauty_and_spas" #enter proper CATERGORY with the PROPER UNDERSCORES AND SPELLINGS
 town_center = "carshalton" #enter proper VALID TOWN CENTER
-search_term = "spas"
-count=1
+search_term = "salons"
+count=4
 
 collector = BusinessCollector(api_key=key,catergory=catergory,town_center=town_center,search_term=search_term,ll=ll,count=count)
 collector.make_directories()

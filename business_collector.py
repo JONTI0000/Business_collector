@@ -50,6 +50,9 @@ enter a valid catergory out of the following
         return self.catergory 
     
     def documenting_results(self):
+        """
+        keeping track of the results and recording that on a CSV file
+        """
         path = os.path.join(self.path,"results.csv")
         with open(path,'a', newline='') as csv_file:
                         csv_writer = csv.writer(csv_file)
